@@ -1,0 +1,22 @@
+type Query {
+    todoRoot: TodoRoot!
+}
+
+type TodoRoot {
+    id: ID!
+    all: [Todo!]!
+    completed: [Todo!]!
+    unCompleted: [Todo!]!
+    todo(id: ID!): Todo
+}
+
+type Todo {
+    id: ID!
+    title: String!
+    done: Boolean!
+}
+
+type Mutation {
+    createTodo(title: String!): TodoRoot!
+    toggleDone(id: ID!, done: Boolean!): TodoRoot!
+}

@@ -1,0 +1,17 @@
+mutation ToggleTodoDone($id: ID!, $done: Boolean!) {
+    toggleDone(id: $id, done: $done) {
+        id
+        all {
+            id
+            ... TodoListItem
+        }
+        completed {
+            id
+            ... TodoListItem
+        }
+        unCompleted {
+            id
+            ... TodoListItem
+        }
+    }
+}

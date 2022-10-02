@@ -1,0 +1,10 @@
+query TodoDetailPage($id: ID!) {
+    todoRoot {
+        id
+        todo(id: $id) {
+            id
+            title
+            done
+        }
+    }
+}

@@ -1,0 +1,23 @@
+query TodoListPage {
+    todoRoot {
+        id
+        all {
+            id
+            ... TodoListItem
+        }
+        completed {
+            id
+            ... TodoListItem
+        }
+        unCompleted {
+            id
+            ... TodoListItem
+        }
+    }
+}
+
+fragment TodoListItem on Todo {
+    id
+    title
+    done
+}

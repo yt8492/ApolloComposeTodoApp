@@ -1,0 +1,17 @@
+mutation CreateTodo($title: String!) {
+    createTodo(title: $title) {
+        id
+        all {
+            id
+            ... TodoListItem
+        }
+        completed {
+            id
+            ... TodoListItem
+        }
+        unCompleted {
+            id
+            ... TodoListItem
+        }
+    }
+}
