@@ -19,6 +19,7 @@ import com.yt8492.apollocomposetodoapp.TodoListPageQuery
 import com.yt8492.apollocomposetodoapp.ToggleTodoDoneMutation
 import com.yt8492.apollocomposetodoapp.infra.mutation
 import com.yt8492.apollocomposetodoapp.infra.watch
+import com.yt8492.apollocomposetodoapp.ui.common.ErrorDialog
 import kotlinx.coroutines.launch
 
 @Composable
@@ -54,32 +55,7 @@ fun TodoListPage(
         }
     ) { paddingValues ->
         if (error != null) {
-            AlertDialog(
-                onDismissRequest = {
-                    coroutineScope.launch {
-                        refetch()
-                    }
-                },
-                text = {
-                    Text(text = error.message)
-                },
-                buttons = {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.End,
-                    ) {
-                        TextButton(
-                            onClick = {
-                                coroutineScope.launch {
-                                    refetch()
-                                }
-                            },
-                        ) {
-                            Text(text = "ok")
-                        }
-                    }
-                },
-            )
+            ErrorDialog(error = error)
         }
         SwipeRefresh(
             state = rememberSwipeRefreshState(isRefreshing = loading),

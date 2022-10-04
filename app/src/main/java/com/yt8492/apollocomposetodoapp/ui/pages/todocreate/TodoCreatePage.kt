@@ -12,6 +12,7 @@ import androidx.navigation.NavController
 import com.apollographql.apollo3.ApolloClient
 import com.yt8492.apollocomposetodoapp.CreateTodoMutation
 import com.yt8492.apollocomposetodoapp.infra.mutation
+import com.yt8492.apollocomposetodoapp.ui.common.ErrorDialog
 import kotlinx.coroutines.launch
 
 @Composable
@@ -20,7 +21,7 @@ fun TodoCreatePage(
     apolloClient: ApolloClient,
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val (createTodo, data, loading, _) = apolloClient.mutation<CreateTodoMutation.Data>()
+    val (createTodo, data, loading, error) = apolloClient.mutation<CreateTodoMutation.Data>()
     LaunchedEffect(data) {
         if (data != null) {
             navController.popBackStack()
@@ -47,6 +48,9 @@ fun TodoCreatePage(
             )
         }
     ) { paddingValues ->
+        if (error != null) {
+            ErrorDialog(error = error)
+        }
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center,

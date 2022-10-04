@@ -19,6 +19,7 @@ import com.yt8492.apollocomposetodoapp.ToggleTodoDoneMutation
 import com.yt8492.apollocomposetodoapp.infra.mutation
 import com.yt8492.apollocomposetodoapp.ui.theme.Typography
 import com.yt8492.apollocomposetodoapp.infra.watch
+import com.yt8492.apollocomposetodoapp.ui.common.ErrorDialog
 import kotlinx.coroutines.launch
 
 @Composable
@@ -55,32 +56,7 @@ fun TodoDetailPage(
         },
     ) { paddingValues ->
         if (error != null) {
-            AlertDialog(
-                onDismissRequest = {
-                    coroutineScope.launch {
-                        refetch()
-                    }
-                },
-                text = {
-                    Text(text = error.message)
-                },
-                buttons = {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.End,
-                    ) {
-                        TextButton(
-                            onClick = {
-                                coroutineScope.launch {
-                                    refetch()
-                                }
-                            },
-                        ) {
-                            Text(text = "ok")
-                        }
-                    }
-                },
-            )
+            ErrorDialog(error = error)
         }
         SwipeRefresh(
             state = rememberSwipeRefreshState(isRefreshing = loading),
@@ -92,44 +68,34 @@ fun TodoDetailPage(
             modifier = Modifier.padding(paddingValues)
         ) {
             val todo = data?.todoRoot?.todo ?: return@SwipeRefresh
-            LazyColumn(
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(32.dp),
             ) {
-                item {
+                Text(
+                    text = "title",
+                    style = Typography.subtitle1,
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(text = todo.title)
+                Spacer(modifier = Modifier.height(32.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
                     Text(
-                        text = "title",
+                        text = "done:",
                         style = Typography.subtitle1,
                     )
-                }
-                item {
-                    Spacer(modifier = Modifier.height(16.dp))
-                }
-                item {
-                    Text(text = todo.title)
-                }
-                item {
-                    Spacer(modifier = Modifier.height(32.dp))
-                }
-                item {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Text(
-                            text = "done:",
-                            style = Typography.subtitle1,
-                        )
-                        Spacer(modifier = Modifier.width(32.dp))
-                        Checkbox(
-                            checked = todo.done,
-                            onCheckedChange = { done ->
-                                coroutineScope.launch {
-                                    toggle(ToggleTodoDoneMutation(todo.id, done))
-                                }
-                            },
-                        )
-                    }
+                    Spacer(modifier = Modifier.width(32.dp))
+                    Checkbox(
+                        checked = todo.done,
+                        onCheckedChange = { done ->
+                            coroutineScope.launch {
+                                toggle(ToggleTodoDoneMutation(todo.id, done))
+                            }
+                        },
+                    )
                 }
             }
         }
