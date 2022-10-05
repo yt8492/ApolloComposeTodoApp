@@ -11,6 +11,7 @@ object ApolloClientFactory {
     fun create(): ApolloClient {
         // Programmatic cache IDs in Apollo Kotlin
         // https://www.apollographql.com/docs/kotlin/caching/programmatic-ids
+        // https://github.com/apollographql/apollo-kotlin/blob/v3.0.0/tests/integration-tests/src/commonTest/kotlin/Utils.kt
         return ApolloClient.Builder()
             .serverUrl("http://10.0.2.2:4000/")
             .logCacheMisses()
