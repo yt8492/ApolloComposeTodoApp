@@ -9,6 +9,8 @@ import com.apollographql.apollo3.cache.normalized.normalizedCache
 
 object ApolloClientFactory {
     fun create(): ApolloClient {
+        // Programmatic cache IDs in Apollo Kotlin
+        // https://www.apollographql.com/docs/kotlin/caching/programmatic-ids
         return ApolloClient.Builder()
             .serverUrl("http://10.0.2.2:4000/")
             .logCacheMisses()
